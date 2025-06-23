@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String    @id @default(cuid()) @map("user_id")
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(user)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  password      String?
+  accounts      Account?
+  profiles      profiles?
+  sessions      Session[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @unique @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model profiles {
+  profile_id String  @id
+  phone      String?
+  userId     String  @unique
+  users      User    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  user
+  admin
+  super_admin
+}
