@@ -38,3 +38,7 @@ export const passwordSchema = z.object({
     }),
   confirmPassword: z.string(),
 });
+
+export const reqVerifySchema = z.object({
+  email: z.string().email({ message: 'email is not correct' }),
+});
