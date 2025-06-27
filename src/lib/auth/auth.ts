@@ -27,7 +27,6 @@ const handler = NextAuth({
     signIn: async ({ user, account }) => {
       if (account && account.type == 'oauth') {
         console.log('oauth user', user);
-
         return true;
       }
 
@@ -43,17 +42,24 @@ const handler = NextAuth({
       const response: { data: { isSuccess: boolean; result: any } } = await callApi.post('/auth/user/detail', {
         email: token.email,
       });
+      console.log(response.data);
 
       token.emailVerified = response.data.result.emailVerified;
       token.role = response.data.result.role;
 
+      console.log('ini dari jwt token', token);
+
       return token;
     },
     session: async ({ session, token }) => {
+      if (!token) return session;
       return {
         ...session,
-        emailVerified: token.email_verified,
-        role: token.role,
+        user: {
+          ...session.user,
+          emailVerified: token.emailVerified,
+          role: token.role,
+        },
       };
     },
   },
