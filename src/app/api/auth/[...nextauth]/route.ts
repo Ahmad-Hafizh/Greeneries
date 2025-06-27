@@ -57,9 +57,7 @@ const handler = NextAuth({
   secret: process.env.TOKEN_KEY!,
   callbacks: {
     signIn: async ({ user, account }) => {
-      if (account && account.type == 'oauth') {
-        console.log('oauth user', user);
-
+      if (account && account.type == 'oauth' && user) {
         return true;
       }
 
@@ -82,11 +80,22 @@ const handler = NextAuth({
       return token;
     },
     session: async ({ session, token }) => {
+      if (!token) return session;
       return {
         ...session,
-        emailVerified: token.email_verified,
-        role: token.role,
+        user: {
+          ...session.user,
+          emailVerified: token.emailVerified,
+          role: token.role,
+        },
       };
+    },
+  },
+  events: {
+    createUser: async ({ user }) => {
+      await callApi.post('/auth/signin/oauth', {
+        userId: user.id,
+      });
     },
   },
 });

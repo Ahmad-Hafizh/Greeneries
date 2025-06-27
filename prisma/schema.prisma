@@ -19,7 +19,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   password      String?
   accounts      Account?
-  profiles      profiles?
+  Profile       Profile?
   sessions      Session[]
 
   @@map("users")
@@ -54,11 +54,13 @@ model Session {
   @@map("sessions")
 }
 
-model profiles {
-  profile_id String  @id
+model Profile {
+  profile_id String  @id @default(cuid())
   phone      String?
   userId     String  @unique
-  users      User    @relation(fields: [userId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }
 
 enum Role {
