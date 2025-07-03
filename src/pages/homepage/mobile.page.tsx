@@ -4,10 +4,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Bell, Globe2Icon, Search } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const MobileHomePage = () => {
   const { data: session, status } = useSession();
+  const time = new Date().getHours();
+
   return (
     <div className="p-8 flex flex-col gap-8 mb-20">
       {status == 'authenticated' && session.user.name && (
@@ -15,7 +17,7 @@ const MobileHomePage = () => {
           <div className="header flex justify-between items-center">
             <Avatar className="w-14 h-14">
               <AvatarImage src={session?.user.image as string} />
-              <AvatarFallback className="text-xl bg-gray-200 font-semibold">{`${session?.user.name[0]}${session?.user.name[1]}`}</AvatarFallback>
+              <AvatarFallback className="text-xl bg-gray-200 font-semibold uppercase">{`${session?.user.name[0]}${session?.user.name[1]}`}</AvatarFallback>
             </Avatar>
             <div className="relative mr-2">
               <Bell className="w-8 h-8 " />
@@ -26,7 +28,7 @@ const MobileHomePage = () => {
           </div>
           <div className="">
             <p className="text-3xl font-semibold">
-              Good Morning <span className="font-bold">{session.user.name.split(' ')[0]}</span>,
+              Good {time < 12 ? 'Morning' : time < 18 ? 'Afternoon' : 'Night'} <span className="font-bold capitalize">{session.user.name.split(' ')[0]}</span>,
             </p>
             <p className="text-xl font-semibold">What things do you want to buy today ?</p>
           </div>
