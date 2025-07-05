@@ -1,5 +1,6 @@
 import { GalleryVerticalEnd } from 'lucide-react';
 import { SignupForm } from './signupForm';
+import Image from 'next/image';
 
 export default function SignInPage() {
   return (
@@ -20,7 +21,7 @@ export default function SignInPage() {
         </div>
       </div>
       <div className="bg-muted relative h-screen z-0 w-full">
-        <img src="/3.jpg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale brightness-50" />
+        <Image src="/3.jpg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale brightness-50" />
       </div>
     </div>
   );

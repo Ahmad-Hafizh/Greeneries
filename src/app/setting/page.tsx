@@ -1,6 +1,6 @@
 'use client';
-import DesktopSettingPage from '@/pages/setting/desktop.page';
-import MobileSettingPage from '@/pages/setting/mobile.page';
+import DesktopSettingPage from '@/views/setting/desktop.setting';
+import MobileSettingPage from '@/views/setting/mobile.setting';
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
