@@ -17,7 +17,7 @@ export function VerifyForm({ className, ...props }: React.ComponentProps<'div'>)
   });
 
   const queryParams = useSearchParams();
-  const token = queryParams.get('a_t');
+  const token = queryParams?.get('a_t');
 
   const onHandleSubmit = async (values: z.infer<typeof passwordSchema>) => {
     if (values.confirmPassword === values.password) {

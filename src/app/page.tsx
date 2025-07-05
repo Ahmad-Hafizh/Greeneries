@@ -1,6 +1,6 @@
 'use client';
-import DesktopHomePage from '@/pages/homepage/desktop.page';
-import MobileHomePage from '@/pages/homepage/mobile.page';
+import DesktopHomePage from '@/views/homepage/desktop.homepage';
+import MobileHomePage from '@/views/homepage/mobile.homepage';
 import { useMediaQuery } from 'react-responsive';
 // import { useSession } from 'next-auth/react';
 

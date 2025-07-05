@@ -1,6 +1,6 @@
 'use client';
-import DesktopCartPage from '@/pages/cart/desktop.page';
-import MobileCartPage from '@/pages/cart/mobile.page';
+import DesktopCartPage from '@/views/cart/desktop.homepage';
+import MobileCartPage from '@/views/cart/mobile.homepage';
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 
