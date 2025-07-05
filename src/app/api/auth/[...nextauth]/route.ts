@@ -22,8 +22,8 @@ declare module 'next-auth' {
 const handler = NextAuth({
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
     Credentials({
       name: 'Credentials',
@@ -54,7 +54,7 @@ const handler = NextAuth({
   ],
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
-  secret: process.env.TOKEN_KEY!,
+  secret: process.env.TOKEN_KEY || '',
   callbacks: {
     signIn: async ({ user, account }) => {
       if (account && account.type == 'oauth' && user) {
