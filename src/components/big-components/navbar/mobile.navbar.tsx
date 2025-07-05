@@ -1,33 +1,34 @@
 import { Button } from '@/components/ui/button';
 import { Home, Package, ShoppingBag, ShoppingCart, User2Icon, X } from 'lucide-react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 const MobileNavbar = () => {
   const { status } = useSession();
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const router = useRouter();
+  const pathName = usePathname()?.split('/')[1];
 
   const navList = [
     {
-      icon: <Home className="text-green-700 w-8 h-8" />,
+      icon: <Home className=" w-8 h-8" />,
       route: '/',
     },
     {
-      icon: <ShoppingCart className="text-green-700 w-8 h-8" />,
+      icon: <ShoppingCart className="w-8 h-8" />,
       route: '/cart',
     },
     {
-      icon: <ShoppingBag className="text-green-700 w-8 h-8" />,
+      icon: <ShoppingBag className=" w-8 h-8" />,
       route: '/search',
     },
     {
-      icon: <Package className="text-green-700 w-8 h-8" />,
+      icon: <Package className=" w-8 h-8" />,
       route: '/transaction',
     },
     {
-      icon: <User2Icon className="text-green-700 w-8 h-8" />,
+      icon: <User2Icon className=" w-8 h-8" />,
       route: '/setting',
     },
   ];
@@ -37,7 +38,7 @@ const MobileNavbar = () => {
       <div className="fixed bottom-0 z-50 bg-white w-full  p-6 border-t-2">
         <div className="flex flex-row justify-between px-4 mb-2">
           {navList.map((e, i) => (
-            <div className="w-8 h-8 cursor-pointer" onClick={() => router.push(e.route)} key={i}>
+            <div className={`w-8 h-8 cursor-pointer  ${e.route == `/${pathName}` ? 'text-green-800' : 'text-gray-400'}`} onClick={() => router.push(e.route)} key={i}>
               {e.icon}
             </div>
           ))}
