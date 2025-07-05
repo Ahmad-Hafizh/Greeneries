@@ -5,6 +5,7 @@ import { Bell, Globe2Icon, Search } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import ProductCard from '@/components/small-components/product-card/productCard';
 
 const MobileHomePage = () => {
   const { data: session, status } = useSession();
@@ -17,7 +18,7 @@ const MobileHomePage = () => {
           <div className="header flex justify-between items-center">
             <Avatar className="w-14 h-14">
               <AvatarImage src={session?.user.image as string} />
-              <AvatarFallback className="text-xl bg-gray-200 font-semibold uppercase">{`${session?.user.name[0]}${session?.user.name[1]}`}</AvatarFallback>
+              <AvatarFallback className="text-xl bg-gray-200 font-semibold uppercase font-serif">{`${session?.user.name[0]}${session?.user.name[1]}`}</AvatarFallback>
             </Avatar>
             <div className="relative mr-2">
               <Bell className="w-8 h-8 " />
@@ -27,8 +28,8 @@ const MobileHomePage = () => {
             </div>
           </div>
           <div className="">
-            <p className="text-3xl font-semibold">
-              Good {time < 12 ? 'Morning' : time < 18 ? 'Afternoon' : 'Night'} <span className="font-bold capitalize">{session.user.name.split(' ')[0]}</span>,
+            <p className="text-3xl font-medium font-serif">
+              Good {time < 12 ? 'Morning' : time < 18 ? 'Afternoon' : 'Night'} <span className="font-bold capitalize ">{session.user.name.split(' ')[0]}</span>,
             </p>
             <p className="text-xl font-semibold">What things do you want to buy today ?</p>
           </div>
@@ -41,7 +42,7 @@ const MobileHomePage = () => {
       <div className="bg-green-800 text-white w-full p-4 rounded-xl flex justify-between">
         <div className="">
           <p className="text-sm">Current store :</p>
-          <p className="text-2xl leading-tight font-semibold">Greeneries Kuningan</p>
+          <p className="text-2xl leading-tight font-serif">Greeneries Kuningan</p>
         </div>
         <div className="flex flex-col justify-between items-end">
           <Globe2Icon />
@@ -49,7 +50,7 @@ const MobileHomePage = () => {
         </div>
       </div>
       <div className="deals-for-you flex flex-col gap-4">
-        <p className="text-xl font-semibold">Deals for you</p>
+        <p className="text-xl font-semibold font-serif">Deals for you</p>
         <Carousel className="relative rounded-xl overflow-hidden">
           <CarouselContent className="ml-2 gap-2 pr-10">
             {Array.from({ length: 5 }).map((e, i) => (
@@ -77,12 +78,12 @@ const MobileHomePage = () => {
         </Carousel>
       </div>
       <div className="deals-for-you flex flex-col gap-4">
-        <p className="text-xl font-semibold">Product for you</p>
+        <p className="text-xl font-semibold font-serif">Product for you</p>
         <Carousel className="relative rounded-xl overflow-hidden">
           <CarouselContent className="ml-2 gap-2 pr-10">
             {Array.from({ length: 5 }).map((e, i) => (
-              <CarouselItem className="h-[200px] bg-gray-300 basis-1/2 rounded-xl flex items-center justify-center pl-2" key={i}>
-                {i}
+              <CarouselItem className="h-fit basis-1/2 rounded-xl flex items-center justify-center pl-0" key={i}>
+                <ProductCard />
               </CarouselItem>
             ))}
           </CarouselContent>
