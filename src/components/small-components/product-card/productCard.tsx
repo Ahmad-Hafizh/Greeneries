@@ -3,15 +3,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import Image from 'next/image';
 import { Plus } from 'lucide-react';
 
-interface IProduct {
-  onClick: () => void;
-  onAddCart: () => void;
-  name: string;
-  price: string;
-  undiscountedPrice?: string;
-  discount?: string;
-  weight: string;
-}
+// interface IProduct {
+//   onClick: () => void;
+//   onAddCart: () => void;
+//   name: string;
+//   price: string;
+//   undiscountedPrice?: string;
+//   discount?: string;
+//   weight: string;
+// }
 
 const ProductCard = () => {
   return (
