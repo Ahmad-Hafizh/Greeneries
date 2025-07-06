@@ -21,7 +21,7 @@ export default function SignInPage() {
         </div>
       </div>
       <div className="bg-muted relative h-screen z-0 w-full">
-        <Image src="/3.jpg" alt="Image" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale brightness-50" />
+        <Image src="/3.jpg" alt="Image" fill className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale brightness-50" />
       </div>
     </div>
   );
