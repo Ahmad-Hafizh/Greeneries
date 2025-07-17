@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import PlaceholderToLabelInput from '@/components/small-components/input/placeholderToLabel';
 
 const profileShema = z.object({
   name: z.string(),
@@ -72,9 +72,8 @@ const ProfileViews = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <PlaceholderToLabelInput label="Name" field={field} />
                 </FormControl>
               </FormItem>
             )}
@@ -84,9 +83,8 @@ const ProfileViews = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled />
+                  <PlaceholderToLabelInput label="Email" field={field} disabled />
                 </FormControl>
               </FormItem>
             )}
@@ -96,9 +94,8 @@ const ProfileViews = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Phone</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <PlaceholderToLabelInput label="Phone" field={field} />
                 </FormControl>
               </FormItem>
             )}
@@ -108,14 +105,13 @@ const ProfileViews = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Gender</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <PlaceholderToLabelInput label="Gender" field={field} />
                 </FormControl>
               </FormItem>
             )}
           />
-          <Button>Update</Button>
+          <Button className="text-xl py-4 bg-green-800 h-fit">Update</Button>
         </form>
       </Form>
     </div>
