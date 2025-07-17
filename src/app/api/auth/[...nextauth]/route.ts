@@ -2,6 +2,7 @@
 import { callApi } from '@/app/config/axios';
 import prisma from '@/app/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { JwtPayload, sign, verify } from 'jsonwebtoken';
 import NextAuth, { DefaultSession, DefaultUser } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import Google from 'next-auth/providers/google';
@@ -59,6 +60,17 @@ const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   secret: tokenKey,
+  cookies: {
+    sessionToken: {
+      name: `secure_auth_token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: false,
+      },
+    },
+  },
   callbacks: {
     signIn: async ({ user, account }) => {
       if (account && account.type == 'oauth' && user) {
@@ -100,6 +112,30 @@ const handler = NextAuth({
       await callApi.post('/auth/signin/oauth', {
         userId: user.id,
       });
+    },
+  },
+  jwt: {
+    encode: async ({ token, secret, maxAge = 2592000 }) => {
+      // You can modify the token before encoding
+      const modifiedToken = {
+        ...token,
+        iat: Math.floor(Date.now() / 1000),
+        exp: Math.floor(Date.now() / 1000) + maxAge,
+      };
+
+      return sign(modifiedToken, secret, { algorithm: 'HS256' });
+    },
+
+    // Custom decode function
+    decode: async ({ token, secret }) => {
+      try {
+        const decoded = verify(token as string, secret, { algorithms: ['HS256'] });
+
+        return decoded as JwtPayload;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
     },
   },
 });

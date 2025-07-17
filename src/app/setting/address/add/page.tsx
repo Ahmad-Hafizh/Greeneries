@@ -1,4 +1,5 @@
 'use client';
+import { callApi } from '@/app/config/axios';
 import PlaceholderToLabelInput from '@/components/small-components/input/placeholderToLabel';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
@@ -24,8 +25,15 @@ const AddAddressPage = () => {
   });
   const router = useRouter();
 
-  const onSubmit = (values: z.infer<typeof newAddressSchema>) => {
+  const onSubmit = async (values: z.infer<typeof newAddressSchema>) => {
     console.log(values);
+
+    try {
+      const response = await callApi.get('/address/testcookie', { withCredentials: true });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
