@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
-import { callApi } from '@/app/config/axios';
-import PlaceholderToLabelInput from '@/components/small-components/input/placeholderToLabel';
-import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import PlaceholderToLabelSelect from '@/components/small-components/select/placeholderToLabel';
+import PlaceholderToLabelInput from '@/components/small-components/input/placeholderToLabel';
 import axios from 'axios';
-import FindMe from '@/views/setting/address/findMe';
+import { callApi } from '@/app/config/axios';
+import { Button } from '@/components/ui/button';
 
 const newAddressSchema = z.object({
   address_name: z.string().nonempty(),
@@ -24,11 +23,19 @@ const newAddressSchema = z.object({
   zipcode: z.string().nonempty(),
 });
 
-const AddAddressPage = () => {
+const EditAddressViews = ({ detail }: { detail: any }) => {
   const form = useForm<z.infer<typeof newAddressSchema>>({
     resolver: zodResolver(newAddressSchema),
+    defaultValues: {
+      address_name: detail.address_name || '',
+      street: detail.street || '',
+      unit: detail.unit || '',
+      city: detail.city || '',
+      province: detail.province,
+      country: detail.country || '',
+      zipcode: detail.zipcode || '',
+    },
   });
-
   const router = useRouter();
   const [countries, setCountries] = useState([]);
   const [states, setStates] = useState([]);
@@ -42,7 +49,6 @@ const AddAddressPage = () => {
     try {
       const response = await axios.get('https://api.countrystatecity.in/v1/countries', { headers: { 'X-CSCAPI-KEY': 'NTBibjF5OURLOWxXZ2wwWWlUQldObzA3T2IxaEVsWDJVazNaZ2xnaA==' } });
       setCountries(response.data);
-      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -53,8 +59,6 @@ const AddAddressPage = () => {
       const response = await axios.get(`https://api.countrystatecity.in/v1/countries/${countryId}/states`, {
         headers: { 'X-CSCAPI-KEY': 'NTBibjF5OURLOWxXZ2wwWWlUQldObzA3T2IxaEVsWDJVazNaZ2xnaA==' },
       });
-
-      console.log(response.data);
 
       setStates(response.data);
     } catch (error) {
@@ -67,8 +71,6 @@ const AddAddressPage = () => {
       const response = await axios.get(`https://api.countrystatecity.in/v1/countries/${countryId}/states/${provinceId}/cities`, {
         headers: { 'X-CSCAPI-KEY': 'NTBibjF5OURLOWxXZ2wwWWlUQldObzA3T2IxaEVsWDJVazNaZ2xnaA==' },
       });
-
-      console.log(response.data);
 
       setCities(response.data);
     } catch (error) {
@@ -138,51 +140,8 @@ const AddAddressPage = () => {
       </div>
       <div className="flex flex-col w-full gap-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-serif ">Add new address</h1>
-          <p className="leading-tight text-lg font-medium text-gray-600">This should be your recident address, office or etc. the destination of delivery</p>
-        </div>
-        {/* <Form {...formCoordinates}>
-          <form onSubmit={formCoordinates.handleSubmit(onSubmitCoordinates)}>
-            <Drawer>
-              <DrawerTrigger asChild>
-                <Button variant={'outline'} className="text-xl py-4 h-fit border-gray-400" onClick={getLocation} type="button">
-                  <MapPinned className="w-8 h-8" /> Find me
-                </Button>
-              </DrawerTrigger>
-              <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Your new address name</DrawerTitle>
-                  <FormField
-                    name="address_name"
-                    control={formCoordinates.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <PlaceholderToLabelInput field={field} label="Address name" />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </DrawerHeader>
-                <DrawerFooter>
-                  <Button type="submit" onClick={() => console.log('clicked')}>
-                    Submit
-                  </Button>
-                  <DrawerClose>
-                    <Button variant="outline" type="button">
-                      Cancel
-                    </Button>
-                  </DrawerClose>
-                </DrawerFooter>
-              </DrawerContent>
-            </Drawer>
-          </form>
-        </Form> */}
-        <FindMe />
-        <div className="flex items-center justify-center gap-4">
-          <hr className="w-full mt-1 border-gray-400" />
-          <p className="text-center">or</p>
-          <hr className="w-full mt-1 border-gray-400" />
+          <h1 className="text-3xl font-serif ">Edit existing address</h1>
+          <p className="leading-tight text-lg font-medium text-gray-600">edit or delete your existing address. can not change the delivery address that on progress</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -214,7 +173,7 @@ const AddAddressPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <PlaceholderToLabelSelect field={field} label="Province / State" items={states} disabled={!form.watch('country')} itemValue="name" onValueChange={selectProvince} />
+                    <PlaceholderToLabelSelect field={field} label="Province / State" items={states} itemValue="name" onValueChange={selectProvince} />
                   </FormControl>
                 </FormItem>
               )}
@@ -225,7 +184,7 @@ const AddAddressPage = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <PlaceholderToLabelSelect field={field} label="City" items={cities} disabled={!form.watch('province')} itemValue="name" onValueChange={selectCity} />
+                    <PlaceholderToLabelSelect field={field} label="City" items={cities} itemValue="name" onValueChange={selectCity} />
                   </FormControl>
                 </FormItem>
               )}
@@ -273,4 +232,4 @@ const AddAddressPage = () => {
   );
 };
 
-export default AddAddressPage;
+export default EditAddressViews;
