@@ -14,7 +14,6 @@ interface IPlaceholderToLabel {
 
 const PlaceholderToLabelInput = ({ label, field, type = 'text', disabled = false }: IPlaceholderToLabel) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false);
-
   if (type == 'password') {
     return (
       <div className="relative w-full h-fit group flex items-center">

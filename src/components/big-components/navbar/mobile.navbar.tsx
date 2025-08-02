@@ -20,15 +20,15 @@ const MobileNavbar = () => {
       route: '/cart',
     },
     {
-      icon: <ShoppingBag className=" w-8 h-8" />,
-      route: '/search',
+      icon: <ShoppingBag className="w-8 h-8" />,
+      route: '/explore',
     },
     {
-      icon: <Package className=" w-8 h-8" />,
+      icon: <Package className="w-8 h-8" />,
       route: '/transaction',
     },
     {
-      icon: <User2Icon className=" w-8 h-8" />,
+      icon: <User2Icon className="w-8 h-8" />,
       route: '/setting',
     },
   ];
